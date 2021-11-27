@@ -19,7 +19,7 @@ Config.Zones = {
 }
 
 
---delays in seconds, dont go above 25, makes anim longer
+--currently useless
 Config.Delays = {
 	upackUranium = 1,
 	--collectUranium = 30,
