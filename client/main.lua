@@ -15,30 +15,33 @@ local isPickingUp = false
 local isProcessing = false
 local isUnboxing = false
 local isPressing = false
-local isSelling = false 
+local isSelling = false
 
 local PlayerData = {}
 ESX = nil
 
 Citizen.CreateThread(function()
     while ESX == nil do
-      TriggerEvent('esx:getSharedObject', function(obj) 
-        ESX = obj end)
+      TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
       Citizen.Wait(0)
     end
-end)
+  end)
 
 RegisterNetEvent('esx:playerLoaded')
-AddEventHandler('esx:playerLoaded', function(xPlayer) ESX.PlayerData = xPlayer end)
-
+AddEventHandler('esx:playerLoaded', function(xPlayer)
+    PlayerData = xPlayer
+end)
+  
 RegisterNetEvent('esx:setJob')
-AddEventHandler('esx:setJob', function(job) ESX.PlayerData.job = job end)
+AddEventHandler('esx:setJob', function(job)
+    PlayerData.job = job
+end)
 
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
 
-        --if PlayerData.job ~= nil and PlayerData.job.name == 'atomic' then
+        if IsJobTrue() then
 
         if GetDistanceBetweenCoords(getPlayerPos(), Config.Zones.quarryLocation.coords, true) < Config.DrawDistance then
             drawMarkers(Config.Zones.quarryLocation.coords)
@@ -50,16 +53,16 @@ Citizen.CreateThread(function()
             drawMarkers(Config.Zones.placeBox.coords)
         elseif
         GetDistanceBetweenCoords(getPlayerPos(), Config.Zones.cleanUranium.coords, true) < Config.DrawDistance then
-            drawMarkers(Config.Zones.quarryLocation.coords)
-        elseif
-        GetDistanceBetweenCoords(getPlayerPos(), Config.Zones.processUranium.coords, true) < Config.DrawDistance then
             drawMarkers(Config.Zones.cleanUranium.coords)
         elseif
-        GetDistanceBetweenCoords(getPlayerPos(), Config.Zones.liftTPLevel1.coords, true) < Config.DrawDistance then
-            drawMarkers(Config.Zones.liftTPLevel1.coords)
-        elseif
-        GetDistanceBetweenCoords(getPlayerPos(), Config.Zones.liftTPLevel2.coords, true) < Config.DrawDistance then
-            drawMarkers(Config.Zones.liftTPLevel2.coords)
+        GetDistanceBetweenCoords(getPlayerPos(), Config.Zones.processUranium.coords, true) < Config.DrawDistance then
+            drawMarkers(Config.Zones.processUranium.coords)
+        --elseif
+        --GetDistanceBetweenCoords(getPlayerPos(), Config.Zones.liftTPLevel1.coords, true) < Config.DrawDistance then
+            --drawMarkers(Config.Zones.liftTPLevel1.coords)
+        --elseif
+        --GetDistanceBetweenCoords(getPlayerPos(), Config.Zones.liftTPLevel2.coords, true) < Config.DrawDistance then
+            --drawMarkers(Config.Zones.liftTPLevel2.coords)
         elseif
         GetDistanceBetweenCoords(getPlayerPos(), Config.Zones.sellUranium.coords, true) < Config.DrawDistance then
             drawMarkers(Config.Zones.sellUranium.coords)
@@ -71,7 +74,7 @@ Citizen.CreateThread(function()
             drawMarkers(Config.Zones.hustleUranium.coords)
         end
     end
-    --end
+    end
 end)
 
 -- pickup uranium at quarry thread
@@ -80,7 +83,7 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
         local dist = #(getPlayerPos() - Config.Zones.quarryLocation.coords)
 
-        --if PlayerData.job ~= nil and PlayerData.job.name == 'atomicengineer' then
+        if IsJobTrue() then
             if dist < Config.InteractionDistance then
                 if not isPickingUp then
                     showNotification('uran_pickupprompt', false, true, 5000)
@@ -109,7 +112,7 @@ Citizen.CreateThread(function()
             end
         end
 
-   -- end
+   end
 
 end)
 
@@ -117,27 +120,29 @@ end)
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
-        local dist = #(getPlayerPos() - Config.Zones.processUranium.coords)
-        --if PlayerData.job ~= nil and PlayerData.job.name == 'atomicengineer' then
-        if dist < Config.InteractionDistance then
-            if not isCleaning then
-                ESX.ShowHelpNotification(_U('processDirtyUranium'))
-            end
-            if IsControlJustReleased(0, Keys['E']) and not isCleaning then
-                cleanUranium()
-            end
-        else
-            Citizen.Wait(500)
-        end
-        end
-    --end
+                if IsJobTrue() then
+                    local dist = #(getPlayerPos() - Config.Zones.processUranium.coords)
+
+                    if dist < Config.InteractionDistance then
+                        if not isCleaning then
+                            ESX.ShowHelpNotification(_U('processDirtyUranium'))
+                        end
+                        if IsControlJustReleased(0, Keys['E']) and not isCleaning then
+                            cleanUranium()
+                        end
+                    else
+                        Citizen.Wait(500)
+                    end
+                end
+    end
 end)
 
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
+        if IsJobTrue() then
         local dist = #(getPlayerPos() - Config.Zones.placeBox.coords)
-        --if PlayerData.job ~= nil and PlayerData.job.name == 'atomicengineer' then
+
         if dist < Config.InteractionDistance then
             if not isUnboxing then
                 ESX.ShowHelpNotification(_U('uran_beginunpacking'))
@@ -149,15 +154,16 @@ Citizen.CreateThread(function()
             Citizen.Wait(500)
         end
         end
-    --end
+    end
 end)
 
 --make uranium rods
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
+        if IsJobTrue() then
         local dist = #(getPlayerPos() - Config.Zones.sellUranium.coords)
-        --if PlayerData.job ~= nil and PlayerData.job.name == 'atomicengineer' then
+
         if dist < Config.InteractionDistance then
             if not isPressing then
                 ESX.ShowHelpNotification(_U('pressUranium'))
@@ -169,31 +175,28 @@ Citizen.CreateThread(function()
             Citizen.Wait(500)
         end
         end
-    --end
+    end
 end)
 
 --sell uranium
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
+        if IsJobTrue() then
         local dist = #(getPlayerPos() - Config.Zones.hustleUranium.coords)
-        --if PlayerData.job ~= nil and PlayerData.job.name == 'atomicengineer' then
+
         if dist < Config.InteractionDistance then
             if not isSelling then
-                ESX.ShowHelpNotification(_U('uran_sell'))
+                ESX.ShowHelpNotification(_U('uran_sold'))
             end
             if IsControlJustReleased(0, Keys['E']) and not isSelling then
-                TaskStartScenarioInPlace(PlayerPedId(),'world_human_clipboard', 0, false)
-                Citizen.Wait(Config.Delays.upackUranium * 1000)
-                ClearPedTasks(playerPed)
-                Citizen.Wait(1500)
-                TriggerServerEvent('esx_atomicpower:sellUranium')
+                sellUranium()
             end
         else
             Citizen.Wait(500)
         end
     end
-    --end
+    end
 end)
 
 --teleport handler down
@@ -201,36 +204,34 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
         local dist = #(getPlayerPos() - Config.Zones.liftTPLevel1.coords)
-        --if PlayerData.job ~= nil and PlayerData.job.name == 'atomicengineer' then
-        if dist < Config.InteractionDistance then
-            ESX.ShowHelpNotification(_U('uran_teleport'))
-            if IsControlJustReleased(0, Keys['E']) then
-                SetEntityCoords(playerPed, Config.Zones.liftTPLevel2.coords, false, false, false, false)
-                SetEntityHeading(playerPed, 75.51)
+            if dist < Config.InteractionDistance then
+                ESX.ShowHelpNotification(_U('uran_teleport'))
+                if IsControlJustReleased(0, Keys['E']) then
+                    teleportPed(playerPed, Config.Zones.liftTPLevel2.coords, false, 75.76)
+                    --SetEntityCoords(playerPed, Config.Zones.liftTPLevel2.coords, false, false, false, false)
+                    --SetEntityHeading(playerPed, 75.51)
+                end
+            else
+                Citizen.Wait(500)
             end
-        else
-            Citizen.Wait(500)
         end
-        --end
-    end
 end)
 
 --teleport handler down
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
-        local dist = #(getPlayerPos() - Config.Zones.liftTPLevel2.coords)
-        --if ESX.PlayerData.job.name == 'atomicengineer' then
+        local dist = #(getPlayerPos() - Config.Zones.liftTPLevel1.coords)
         if dist < Config.InteractionDistance then
             ESX.ShowHelpNotification(_U('uran_teleport'))
             if IsControlJustReleased(0, Keys['E']) then
-                SetEntityCoords(playerPed, Config.Zones.liftTPLevel1.coords, false, false, false, false)
-                SetEntityHeading(playerPed, 168.76)
+                teleportPed(playerPed, Config.Zones.liftTPLevel1.coords, false, 168.76)
+                --SetEntityCoords(playerPed, Config.Zones.liftTPLevel1.coords, false, false, false, false)
+                --SetEntityHeading(playerPed, 168.76)
             end
         else
             Citizen.Wait(500)
         end
-        --end
     end
 end)
 
@@ -238,6 +239,11 @@ end)
 
 function showNotification(message, thisFrame, makeSound, duration)
     ESX.ShowHelpNotification(_U(message), thisFrame, makeSound, duration)
+end
+
+function teleportPed(ped, coords, options, heading)
+    SetEntityCoords(ped, coords, options, options, options, options)
+    SetEntityHeading(ped, heading)
 end
 
 function unpackBox()
@@ -263,7 +269,6 @@ end
 
 function cleanUranium()
     isCleaning = true
-    local dist = #(getPlayerPos() - Config.Zones.processUranium.coords)
     ESX.ShowNotification(_U('uran_processingstarted'))
     TriggerServerEvent('esx_atomicpower:processDirtyUranium')
     local timeLeft = Config.Delays.processUranium * 1000
@@ -272,7 +277,7 @@ function cleanUranium()
         Citizen.Wait(1000)
         timeLeft = timeLeft - 1
 
-        if dist > Config.InteractionDistance then
+        if GetDistanceBetweenCoords(GetEntityCoords(playerPed), Config.Zones.processUranium.coords, false) > Config.InteractionDistance then
             ESX.ShowNotification(_U('uran_tooFar'))
             TriggerServerEvent('esx_atomicpower:cancelProcessing')
             break
@@ -284,7 +289,6 @@ end
 
 function pressUranium()
     isPressing = true
-    local dist = #(getPlayerPos() - Config.Zones.sellUranium.coords)
     ESX.ShowNotification(_U('uran_processingstarted'))
     TriggerServerEvent('esx_atomicpower:pressUranium')
     local timeLeft = Config.Delays.processUranium * 1000
@@ -293,7 +297,7 @@ function pressUranium()
         Citizen.Wait(1000)
         timeLeft = timeLeft - 1
 
-        if dist > Config.InteractionDistance then
+        if GetDistanceBetweenCoords(GetEntityCoords(playerPed), Config.Zones.sellUranium.coords, false) > Config.InteractionDistance then
             ESX.ShowNotification(_U('uran_tooFar'))
             TriggerServerEvent('esx_atomicpower:cancelProcessing')
             break
@@ -301,6 +305,27 @@ function pressUranium()
     end
 
     isPressing = false
+end
+
+function sellUranium()
+    isSelling = true
+
+    ESX.ShowNotification(_U('uran_sold'))
+    TriggerServerEvent('esx_atomicpower:sellUranium')
+    local timeLeft = Config.Delays.upackUranium * 1000
+
+    while timeLeft > 0 do
+        Citizen.Wait(1000)
+        timeLeft = timeLeft - 1
+
+        if GetDistanceBetweenCoords(GetEntityCoords(playerPed), Config.Zones.hustleUranium.coords, false) > Config.InteractionDistance then
+            ESX.ShowNotification(_U('uran_tooFar'))
+            TriggerServerEvent('esx_atomicpower:cancelProcessing')
+            break
+        end
+    end
+
+    isSelling = false
 end
 
 
@@ -327,6 +352,24 @@ function CreateBlip(coords, text, radius, color, sprite)
 	EndTextCommandSetBlipName(blip)
 end
 
---TOd
--- selling
+function IsJobTrue()
+    if PlayerData ~= nil then
+        local IsJobTrue = false
+        if PlayerData.job ~= nil and PlayerData.job.name == 'atomic' then
+            IsJobTrue = true
+        end
+        return IsJobTrue
+    end
+end
+
+function IsGradeBoss()
+    if PlayerData ~= nil then
+        local IsGradeBoss = false
+        if PlayerData.job.grade_name == '2' then
+            IsGradeBoss = true
+        end
+        return IsGradeBoss
+    end
+end
+
 -- (optional) cars
