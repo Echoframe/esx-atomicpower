@@ -21,7 +21,8 @@ client_scripts {
 	'@es_extended/locale.lua',
 	'config.lua',
 	'locales/de.lua',
-	'client/main.lua'
+	'client/main.lua',
+	'client/tp.lua'
 }
 
 dependency 'es_extended'
