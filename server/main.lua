@@ -1,4 +1,7 @@
 local playersProcessingUranium = {}
+ESX = nil
+
+TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 RegisterServerEvent('esx_atomicpower:pickedUraniumBox')
 AddEventHandler('esx_atomicpower:pickedUraniumBox', function()
