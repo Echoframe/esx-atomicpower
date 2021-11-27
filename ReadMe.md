@@ -16,5 +16,8 @@ Update Notes:
 - Added Job filtering
 - removed delay for interactions at stations (temporarily)
 
+Future updates:
+- pay currently per player, make it pay to job bank account maybe?
+
 Full trip in box van (slow as hell) takes about 20 Minutes, lots of stuff configurable in the config file.
 Locale can be added for whatever language you need, currently only german locale.
