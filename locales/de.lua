@@ -15,16 +15,6 @@ Locales ['de'] = {
   ['uran_teleport'] = 'Drücke ~INPUT_CONTEXT~ um den Aufzug zu benutzen.',
   ['uran_sell'] = 'Drücke ~INPUT_CONTEXT~ um die Uranstäbe zu verkaufen.',
   ['uran_sold'] = '1x Uran verkauft.',
-  
-  -- blips
-  ['blip_PeachFarm'] = 'Pfirsichfeld',
-  ['blip_maisFarm'] = 'Maisfeld',
-  ['blip_mushroomFarm'] = 'Pilzefeld',
-  ['blip_peachprocessing'] = 'Pfirsich Verarbeitung',
-  ['blip_mushroomprocessing'] = 'Pilz Verarbeitung',
-  ['blip_maisprocessing'] = 'Mais Verarbeitung',
-  ['blip_juicedealer'] = 'Gemüse/Obstankäufer',
-  ['blip_Windpark'] = 'Windpark',
-}
+  }
 
 
