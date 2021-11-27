@@ -14,7 +14,7 @@ Locales ['de'] = {
   ['uran_cleaned'] = 'Du hast das Uran gesäubert.',
   ['uran_teleport'] = 'Drücke ~INPUT_CONTEXT~ um den Aufzug zu benutzen.',
   ['uran_sell'] = 'Drücke ~INPUT_CONTEXT~ um die Uranstäbe zu verkaufen.',
-  ['uran_sold'] = '1x Uran verkauft.',
+  ['uran_sold'] = 'Drücke ~INPUT_CONTEXT~ um die Uranstäbe zu verkaufen.',
   }
 
 
