@@ -11,7 +11,7 @@ INSERT INTO `jobs` (name, label) VALUES
 
 INSERT INTO `job_grades` (job_name, grade, name, label, salary, skin_male, skin_female) VALUES
 	('atomic',0,'fahrer','Fahrer',0,'{}','{}'),
-	('atomic',1,'physician','Physiker',0,'{}','{}'),
+	('atomic',1,'physician','Angestellter',0,'{}','{}'),
 	('atomic',2,'boss','Abteilungsleiter',0,'{}','{}'),
 ;
 
