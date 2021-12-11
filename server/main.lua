@@ -6,7 +6,7 @@ TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 RegisterServerEvent('esx_atomicpower:pickedUraniumBox')
 AddEventHandler('esx_atomicpower:pickedUraniumBox', function()
 	local xPlayer = ESX.GetPlayerFromId(source)
-	local xItem = xPlayer.getInventoryItem('radbox')
+	local xItem = xPlayer.getInventoryItem('radBox')
 
 	if not xPlayer.canCarryItem('radbox', xItem.count + 1) then
 		TriggerClientEvent('esx:showNotification', _source, _U('uran_fullprompt'))
@@ -22,7 +22,7 @@ AddEventHandler('esx_atomicpower:processBoxedUranium', function()
 
 
 			local xPlayer = ESX.GetPlayerFromId(_source)
-			local xSBox, xDirtyUranium = xPlayer.getInventoryItem('radbox'), xPlayer.getInventoryItem('dirty_uranium')
+			local xSBox, xDirtyUranium = xPlayer.getInventoryItem('radBox'), xPlayer.getInventoryItem('dirty_uranium')
 
 
 				if not xPlayer.canCarryItem('dirty_uranium', xDirtyUranium.count + 1) then
