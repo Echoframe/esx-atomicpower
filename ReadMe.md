@@ -16,6 +16,9 @@ Update Notes:
 - Added Job filtering
 - removed delay for interactions at stations (temporarily)
 
+Update Notes (18.08.22):
+- Added english locale
+
 Future updates:
 - pay currently per player, make it pay to job bank account maybe?
 
